@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e3f;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #fff;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #5f5fad;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #444477;
+        }
+        .textbox-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .textbox {
+            width: 30%;
+            border: 5px solid #9370DB;
+            padding: 25px;
+            text-align: left;
+            background-color: #5a5a5a;
+            box-sizing: border-box;
+        }
+        ul {
+            text-align: left;
+            margin: 0;
+            padding: 0;
+            list-style-type: disc;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Character Generator</h1>
+        <button onclick="generateCharacter()">Generate Character</button>
+        <p id="character"></p>
+        <div class="textbox-container">
+            <div class="textbox">
+                <p id="age">Age: </p>
+            </div>
+            <div class="textbox">
+                <p id="gender">Gender: </p>
+            </div>
+        </div>
+        <div class="textbox-container">
+            <div class="textbox">
+                <h2>Childhood</h2>
+                <ul id="childhood-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateCharacter() {
+            var categories = ['tragic', 'average', 'happy'];
+            var subcategories = {
+                'tragic': ['bad childhood', 'hard living situation', 'horrible death', 'complicated relationships'],
+                'average': ['normal childhood', 'working', 'in college/school', 'struggling in life'],
+                'happy': ['enjoyable childhood', 'perfectly normal happiness', 'happiness from madness', 'dumb idiot']
+            };
+
+            var selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+            var randomSubcategory = subcategories[selectedCategory][Math.floor(Math.random() * subcategories[selectedCategory].length)];
+            var age = generateAge();
+            var gender = generateGender();
+            var character = getCategoryText(selectedCategory) + ': ' + randomSubcategory + '.';
+            document.getElementById('character').innerHTML = character;
+            document.getElementById('age').innerHTML = 'Age: ' + age;
+            document.getElementById('gender').innerHTML = 'Gender: ' + gender;
+
+            // Update childhood list
+            if (randomSubcategory.includes('childhood')) {
+                var childhoodList = document.getElementById('childhood-list');
+                childhoodList.innerHTML = '';
+                var childhoodScenarios = generateChildhoodScenarios(selectedCategory);
+                childhoodScenarios.forEach(function(scenario) {
+                    var listItem = document.createElement('li');
+                    listItem.textContent = scenario;
+                    childhoodList.appendChild(listItem);
+                });
+            }
+        }
+
+        function generateAge() {
+            var ages = [];
+            for (var i = 12; i <= 45; i++) {
+                ages.push(i.toString());
+            }
+            return ages[Math.floor(Math.random() * ages.length)];
+        }
+
+        function generateGender() {
+            var genders = ['girl', 'boy', 'androgynous or they/them'];
+            return genders[Math.floor(Math.random() * genders.length)];
+        }
+
+        function getCategoryText(category) {
+            switch(category) {
+                case 'tragic':
+                    return 'Tragic character';
+                case 'average':
+                    return 'Average character';
+                case 'happy':
+                    return 'Happy character';
+                default:
+                    return 'Character category not found';
+            }
+        }
+
+        function generateChildhoodScenarios(category) {
+            var scenarios = [];
+            switch(category) {
+                case 'tragic':
+                    scenarios = ['Kidnapped at young age', 'Uprooted from home', 'Death of parent(s)', 'Death of sibling(s)', 'Death of close friend(s)', 'Outcast', 'Abandoned as baby', 'Sold off', 'Poor'];
+                    break;
+                case 'average':
+                    scenarios = ['Attended public school', 'Attended boarding school', 'Was home schooled', 'Moved frequently', 'Only child', 'Has many siblings', 'Middle class', 'Lower middle class', 'Doesn’t get along with family members'];
+                    break;
+                case 'happy':
+                    scenarios = ['Upper class family', 'Extremely rich family', 'Popular in school', 'Many extracurriculars', 'Interesting family outings', 'Only child', 'Many siblings', 'Center of attention'];
+                    break;
+                default:
+                    break;
+            }
+            return shuffleArray(scenarios).slice(0, Math.floor(Math.random() * 2) + 1);
+        }
+
+        function shuffleArray(array) {
+            var shuffledArray = array.slice();
+            for (var i = shuffledArray.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = shuffledArray[i];
+                shuffledArray[i] = shuffledArray[j];
+                shuffledArray[j] = temp;
+            }
+            return shuffledArray;
+        }
+    </script>
+</body>
+</html>
