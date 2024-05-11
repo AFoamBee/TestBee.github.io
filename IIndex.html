@@ -39,8 +39,8 @@
             margin-top: 20px;
         }
         .textbox {
-            width: 30%; /* Adjust as needed */
-            border: 5px solid #9370DB; /* pastel purple */
+            width: 30%;
+            border: 5px solid #9370DB;
             padding: 25px;
             text-align: left;
             background-color: #5a5a5a;
@@ -82,12 +82,14 @@
         function generateCharacter() {
             var categories = ['tragic', 'average', 'happy'];
             var subcategories = {
-                'tragic': ['childhood', 'hard adult life', 'horrible death'],
-                'average': ['childhood', 'In Highschool', 'In college', 'Adult'],
-                'happy': ['childhood', 'Perfectly normal happiness', 'Happiness from Madness', 'dumb idiot']
+                'tragic': ['bad childhood', 'hard living situation', 'horrible death','complicated relationships'],
+                'average': ['normal childhood', 'Working', 'In college/ school', 'struggling in life'],
+                'happy': ['enjoyable childhood', 'Perfectly normal happiness', 'Happiness from Madness', 'dumb idiot']
             };
-            // Add subcategory for 'bad childhood' with randomized choices
+            
             subcategories['bad childhood'] = generateRandomBadChildhood();
+            subcategories['normal childhood'] = generateRandomAverageChildhood();
+            subcategories['enjoyable childhood'] = generateRandomHappyChildhood();
 
             var randomCategory = categories[Math.floor(Math.random() * categories.length)];
             var randomSubcategory = subcategories[randomCategory][Math.floor(Math.random() * subcategories[randomCategory].length)];
@@ -143,34 +145,44 @@
         // Function to generate randomized choices for 'bad childhood'
         function generateRandomBadChildhood() {
             var choices = ['Kidnapped at young age', 'Uprooted from home', 'Death of parent(s)', 'Death of sibling(s)', 'Death of close friend(s)', 'Outcast', 'Abandoned as baby', 'Sold off', 'Poor'];
-            var numChoices = Math.floor(Math.random() * 2) + 1; // Randomly choose 1 or 2 choices
-            var shuffledChoices = choices.sort(() => Math.random() - 0.5); // Shuffle choices array
-            return shuffledChoices.slice(0, numChoices); // Return subset of shuffled choices
+            var numChoices = Math.floor(Math.random() *2)+1;
+            var shuffledChoices = choices.sort(() => Math.random() - 0.5);
+            return shuffledChoices.slice(0, numChoices);
         }
-
-        // Function to generate childhood scenarios based on category
+        function generateRandomAverageChildhood() {
+            var choices = ['Attended public school', 'Attended boarding school', 'Was home schooled', 'Moved frequently', 'Only child', 'Has many siblings', 'Middle class', 'Lower middle class', 'Doesn’t get along with family members'];
+            var numChoices = Math.floor(Math.random() *2)+1;
+            var shuffledChoices = choices.sort(() => Math.random() - 0.5);
+            return shuffledChoices.slice(0, numChoices);
+        }
+        function generateRandomHappyChildhood() {
+            var choices = ['Upper class family', 'Extremely rich family', 'Popular in school', 'Many extracurriculars', 'Interesting family outings', 'Only child', 'Many siblings', 'Center of attention'];
+            var numChoices = Math.floor(Math.random() *2)+1;
+            var shuffledChoices = choices.sort(() => Math.random() - 0.5);
+            return shuffledChoices.slice(0, numChoices);
+        }
         function generateChildhoodScenarios() {
             var tragicChildhood = ['Kidnapped at young age', 'Uprooted from home', 'Death of parent(s)', 'Death of sibling(s)', 'Death of close friend(s)', 'Outcast', 'Abandoned as baby', 'Sold off', 'Poor'];
             var averageChildhood = ['Attended public school', 'Attended boarding school', 'Was home schooled', 'Moved frequently', 'Only child', 'Has many siblings', 'Middle class', 'Lower middle class', 'Doesn’t get along with family members'];
             var happyChildhood = ['Upper class family', 'Extremely rich family', 'Popular in school', 'Many extracurriculars', 'Interesting family outings', 'Only child', 'Many siblings', 'Center of attention'];
-            var randomCategory = Math.floor(Math.random() * 3); // Randomly choose a category
+            var randomCategory = Math.floor(Math.random() * 3);
             var scenarios = [];
 
             switch(randomCategory) {
-                case 0: // Tragic childhood
+                case 0:
                     scenarios = tragicChildhood;
                     break;
-                case 1: // Average childhood
+                case 1:
                     scenarios = averageChildhood;
                     break;
-                case 2: // Happy childhood
+                case 2:
                     scenarios = happyChildhood;
                     break;
                 default:
                     break;
             }
 
-            // Randomly choose 1 or 2 scenarios
+            
             var numChoices = Math.floor(Math.random() * 2) + 1;
             var shuffledScenarios = scenarios.sort(() => Math.random() - 0.5);
             return shuffledScenarios.slice(0, numChoices);
