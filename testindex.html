@@ -39,9 +39,9 @@
             margin-top: 20px;
         }
         .textbox {
-            width: 45%; /* Adjust as needed */
-            border: 2px solid #9370DB; /* pastel purple */
-            padding: 10px;
+            width: 30%; /* Adjust as needed */
+            border: 5px solid #9370DB; /* pastel purple */
+            padding: 25px;
             text-align: left;
             background-color: #5a5a5a;
             box-sizing: border-box;
@@ -53,7 +53,7 @@
             list-style-type: disc;
         }
         ul li {
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -71,8 +71,9 @@
             </div>
         </div>
         <div class="textbox-container">
-            <div class="textbox" id="childhood">
-                <p>Childhood: </p>
+            <div class="textbox">
+                <h2>Childhood</h2>
+                <ul id="childhood-list"></ul>
             </div>
         </div>
     </div>
@@ -82,20 +83,16 @@
             var categories = ['tragic', 'average', 'happy'];
             var subcategories = {
                 'tragic': ['bad childhood', 'hard adult life', 'horrible death'],
-                'average': ['In Highschool', 'In college', 'Adult'],
-                'happy': ['Perfectly normal happiness', 'Happiness from Madness', 'dumb idiot']
+                'average': ['childhood', 'In Highschool', 'In college', 'Adult'],
+                'happy': ['childhood', 'Perfectly normal happiness', 'Happiness from Madness', 'dumb idiot']
             };
+            // Add subcategory for 'bad childhood' with randomized choices
+            subcategories['bad childhood'] = generateRandomBadChildhood();
+
             var randomCategory = categories[Math.floor(Math.random() * categories.length)];
             var randomSubcategory = subcategories[randomCategory][Math.floor(Math.random() * subcategories[randomCategory].length)];
             var age = generateAge();
             var gender = generateGender();
-            var childhoodText = "";
-
-            if (randomSubcategory === 'bad childhood') {
-                var randomChoices = generateRandomBadChildhood();
-                childhoodText = randomChoices.join('<br>');
-            }
-
             var character;
 
             switch(randomCategory) {
@@ -116,12 +113,26 @@
             document.getElementById('character').innerHTML = character;
             document.getElementById('age').innerHTML = 'Age: ' + age;
             document.getElementById('gender').innerHTML = 'Gender: ' + gender;
-            document.getElementById('childhood').innerHTML = '<p>Childhood: </p><ul>' + childhoodText + '</ul>';
+
+            // Update childhood list
+            if (randomSubcategory === 'childhood') {
+                var childhoodList = document.getElementById('childhood-list');
+                childhoodList.innerHTML = ''; // Clear previous list
+                var childhoodScenarios = generateChildhoodScenarios();
+                childhoodScenarios.forEach(function(scenario) {
+                    var listItem = document.createElement('li');
+                    listItem.textContent = scenario;
+                    childhoodList.appendChild(listItem);
+                });
+            }
         }
 
         function generateAge() {
-            var ageRanges = ['10-19', '20-29', '30+', '40+', '50+'];
-            return ageRanges[Math.floor(Math.random() * ageRanges.length)];
+            var ages = [];
+            for (var i = 12; i <= 45; i++) {
+                ages.push(i.toString());
+            }
+            return ages[Math.floor(Math.random() * ages.length)];
         }
 
         function generateGender() {
@@ -129,11 +140,40 @@
             return genders[Math.floor(Math.random() * genders.length)];
         }
 
+        // Function to generate randomized choices for 'bad childhood'
         function generateRandomBadChildhood() {
             var choices = ['Kidnapped at young age', 'Uprooted from home', 'Death of parent(s)', 'Death of sibling(s)', 'Death of close friend(s)', 'Outcast', 'Abandoned as baby', 'Sold off'];
             var numChoices = Math.floor(Math.random() * 2) + 1; // Randomly choose 1 or 2 choices
             var shuffledChoices = choices.sort(() => Math.random() - 0.5); // Shuffle choices array
             return shuffledChoices.slice(0, numChoices); // Return subset of shuffled choices
+        }
+
+        // Function to generate childhood scenarios based on category
+        function generateChildhoodScenarios() {
+            var tragicChildhood = ['Kidnapped at young age', 'Uprooted from home', 'Death of parent(s)', 'Death of sibling(s)', 'Death of close friend(s)', 'Outcast', 'Abandoned as baby', 'Sold off'];
+            var averageChildhood = ['Attended public school', 'Moved to new city', 'Had a pet', 'Participated in extracurricular activities', 'Had a part-time job', 'Went on family vacations', 'Had close friends', 'Experienced sibling rivalry'];
+            var happyChildhood = ['Grew up in loving family', 'Had supportive friends', 'Received good education', 'Participated in fun activities', 'Felt safe and secure at home', 'Had positive role models', 'Celebrated holidays with family', 'Had access to healthcare and necessities'];
+            var randomCategory = Math.floor(Math.random() * 3); // Randomly choose a category
+            var scenarios = [];
+
+            switch(randomCategory) {
+                case 0: // Tragic childhood
+                    scenarios = tragicChildhood;
+                    break;
+                case 1: // Average childhood
+                    scenarios = averageChildhood;
+                    break;
+                case 2: // Happy childhood
+                    scenarios = happyChildhood;
+                    break;
+                default:
+                    break;
+            }
+
+            // Randomly choose 1 or 2 scenarios
+            var numChoices = Math.floor(Math.random() * 2) + 1;
+            var shuffledScenarios = scenarios.sort(() => Math.random() - 0.5);
+            return shuffledScenarios.slice(0, numChoices);
         }
     </script>
 </body>
