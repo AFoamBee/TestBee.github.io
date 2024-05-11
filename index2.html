@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e3f;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #fff;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #5f5fad;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #444477;
+        }
+        .textbox-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .textbox {
+            width: 30%; /* Adjust as needed */
+            border: 5px solid #9370DB; /* pastel purple */
+            padding: 25px;
+            text-align: left;
+            background-color: #5a5a5a;
+            box-sizing: border-box;
+        }
+        ul {
+            text-align: left;
+            margin: 0;
+            padding: 0;
+            list-style-type: disc;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Character Generator</h1>
+        <button onclick="generateCharacter()">Generate Character</button>
+        <p id="character"></p>
+        <div class="textbox-container">
+            <div class="textbox">
+                <p id="age">Age: </p>
+            </div>
+            <div class="textbox">
+                <p id="gender">Gender: </p>
+            </div>
+        </div>
+        <div class="textbox-container">
+            <div class="textbox">
+                <h2>Childhood</h2>
+                <ul id="childhood-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateCharacter() {
+            var categories = ['tragic', 'average', 'happy'];
+            var subcategories = {
+                'tragic': ['childhood', 'hard adult life', 'horrible death'],
+                'average': ['In Highschool', 'In college', 'Adult'],
+                'happy': ['Perfectly normal happiness', 'Happiness from Madness', 'dumb idiot']
+            };
+            // Add subcategory for 'childhood' with randomized choices
+            subcategories['childhood'] = generateRandomChildhood();
+
+            var randomCategory = categories[Math.floor(Math.random() * categories.length)];
+            var randomSubcategory = subcategories[randomCategory][Math.floor(Math.random() * subcategories[randomCategory].length)];
+            var age = generateAge();
+            var gender = generateGender();
+            var character;
+
+            switch(randomCategory) {
+                case 'tragic':
+                    character = 'Tragic character: experiences ' + randomSubcategory + '.';
+                    break;
+                case 'average':
+                    character = 'Average character: ' + randomSubcategory + '.';
+                    break;
+                case 'happy':
+                    character = 'Happy character: ' + randomSubcategory + '.';
+                    break;
+                default:
+                    character = 'Character category not found.';
+                    break;
+            }
+
+            document.getElementById('character').innerHTML = character;
+            document.getElementById('age').innerHTML = 'Age: ' + age;
+            document.getElementById('gender').innerHTML = 'Gender: ' + gender;
+
+            // Update childhood list
+            if (randomSubcategory === 'childhood') {
+                var childhoodList = document.getElementById('childhood-list');
+                childhoodList.innerHTML = ''; // Clear previous list
+                var childhoodScenarios = subcategories['childhood'];
+                childhoodScenarios.forEach(function(scenario) {
+                    var listItem = document.createElement('li');
+                    listItem.textContent = scenario;
+                    childhoodList.appendChild(listItem);
+                });
+            }
+        }
+
+        function generateAge() {
+            var ageRanges = ['10-19', '20-29', '30+', '40+', '50+'];
+            return ageRanges[Math.floor(Math.random() * ageRanges.length)];
+        }
+
+        function generateGender() {
+            var genders = ['girl', 'boy', 'androgynous or they/them'];
+            return genders[Math.floor(Math.random() * genders.length)];
+        }
+
+        // Function to generate randomized choices for 'childhood'
+        function generateRandomChildhood() {
+            var choices = ['Kidnapped at young age', 'Uprooted from home', 'Death of parent(s)', 'Death of sibling(s)', 'Death of close friend(s)', 'Outcast', 'Abandoned as baby', 'Sold off'];
+            var numChoices = Math.floor(Math.random() * 2) + 1; // Randomly choose 1 or 2 choices
+            var shuffledChoices = choices.sort(() => Math.random() - 0.5); // Shuffle choices array
+            return shuffledChoices.slice(0, numChoices); // Return subset of shuffled choices
+        }
+    </script>
+</body>
+</html>
