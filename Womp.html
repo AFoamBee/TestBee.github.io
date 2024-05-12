@@ -91,7 +91,7 @@
             </div>
             <div class="textbox">
                 <h2>Hair Color</h2>
-                <p id="hair-color"></p>
+                <p id="hair-color-text"></p>
             </div>
         </div>
     </div>
@@ -105,7 +105,7 @@
                 'happy': ['enjoyable childhood', 'perfectly normal happiness', 'happiness from madness', 'dumb idiot']
             };
 
-            var hairColors = ['brown', 'blonde', 'black', 'dark brown', 'dirty blonde', 'ginger', 'dyed', 'white', 'strawberry blonde'];
+            var hairColors = ['brown', 'blonde', 'black', 'dirty blonde', 'red', 'strawberry blonde', 'white', 'grey', 'dyed', 'multi-colored'];
 
             var selectedCategory = categories[Math.floor(Math.random() * categories.length)];
             var age = generateAge();
@@ -127,8 +127,7 @@
             document.getElementById('character').innerHTML = character;
             document.getElementById('age').innerHTML = 'Age: ' + age;
             document.getElementById('gender').innerHTML = 'Gender: ' + gender;
-            document.getElementById('hair-color').innerHTML = 'Hair Color: ' + hairColor;
-            
+            document.getElementById('hair-color-text').innerHTML = 'Hair Color: ' + hairColor;
 
             // Update childhood list
             if (selectedCategory === 'tragic' || selectedCategory === 'happy' || selectedCategory === 'average') {
