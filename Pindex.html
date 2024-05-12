@@ -1,4 +1,50 @@
-box-sizing: border-box;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e3f;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #fff;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #5f5fad;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #444477;
+        }
+        .textbox-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .textbox {
+            width: 30%;
+            border: 5px solid #9370DB;
+            padding: 25px;
+            text-align: left;
+            background-color: #5a5a5a;
+            box-sizing: border-box;
         }
         ul {
             text-align: left;
@@ -20,6 +66,9 @@ box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+        .textbox-container .textbox {
+            width: 45%;
+        }
     </style>
 </head>
 <body>
@@ -34,10 +83,6 @@ box-sizing: border-box;
             <div class="textbox">
                 <p id="gender">Gender: </p>
             </div>
-            <div class="textbox">
-                <h2>Hair Color</h2>
-                <p id="hair-color"></p>
-            </div>
         </div>
         <div class="textbox-container">
             <div class="textbox">
@@ -46,7 +91,7 @@ box-sizing: border-box;
             </div>
             <div class="textbox">
                 <h2>Hair Color</h2>
-                <p id="hair-color"></p>
+                <p id="hair-color-text"></p>
             </div>
         </div>
     </div>
@@ -82,8 +127,7 @@ box-sizing: border-box;
             document.getElementById('character').innerHTML = character;
             document.getElementById('age').innerHTML = 'Age: ' + age;
             document.getElementById('gender').innerHTML = 'Gender: ' + gender;
-            document.getElementById('hair-color').innerHTML = 'Hair Color: ' + hairColor;
-            
+            document.getElementById('hair-color-text').innerHTML = 'Hair Color: ' + hairColor;
 
             // Update childhood list
             if (selectedCategory === 'tragic' || selectedCategory === 'happy' || selectedCategory === 'average') {
@@ -144,4 +188,14 @@ box-sizing: border-box;
 
         function shuffleArray(array) {
             var shuffledArray = array.slice();
-            for (var i = shuffledArray.length - 1; i > 0
+            for (var i = shuffledArray.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = shuffledArray[i];
+                shuffledArray[i] = shuffledArray[j];
+                shuffledArray[j] = temp;
+            }
+            return shuffledArray;
+        }
+    </script>
+</body>
+</html>
