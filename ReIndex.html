@@ -39,12 +39,35 @@
             margin-top: 20px;
         }
         .textbox {
-            width: 45%; /* Adjust as needed */
-            border: 2px solid #9370DB; /* pastel purple */
-            padding: 10px;
+            width: 30%;
+            border: 5px solid #9370DB;
+            padding: 25px;
             text-align: left;
             background-color: #5a5a5a;
             box-sizing: border-box;
+        }
+        ul {
+            text-align: left;
+            margin: 0;
+            padding: 0;
+            list-style-type: disc;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #fff;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+        }
+        .textbox-container .textbox {
+            width: 45%;
         }
     </style>
 </head>
@@ -62,8 +85,13 @@
             </div>
         </div>
         <div class="textbox-container">
-            <div class="textbox" id="childhood">
-                <p>Childhood: </p>
+            <div class="textbox">
+                <h2>Childhood</h2>
+                <ul id="childhood-list"></ul>
+            </div>
+            <div class="textbox">
+                <h2>Hair Color</h2>
+                <p id="hair-color-text"></p>
             </div>
         </div>
     </div>
@@ -72,46 +100,55 @@
         function generateCharacter() {
             var categories = ['tragic', 'average', 'happy'];
             var subcategories = {
-                'tragic': ['bad childhood', 'hard adult life', 'horrible death'],
-                'average': ['In Highschool', 'In college', 'Adult'],
-                'happy': ['Perfectly normal happiness', 'Happiness from Madness', 'dumb idiot']
+                'tragic': ['bad childhood', 'hard living situation', 'horrible death', 'complicated relationships'],
+                'average': ['normal childhood', 'working', 'in college/school', 'struggling in life'],
+                'happy': ['enjoyable childhood', 'perfectly normal happiness', 'happiness from madness', 'dumb idiot']
             };
-            var randomCategory = categories[Math.floor(Math.random() * categories.length)];
-            var randomSubcategory = subcategories[randomCategory][Math.floor(Math.random() * subcategories[randomCategory].length)];
+
+            var hairColors = ['brown', 'blonde', 'black', 'dark brown', 'dirty blonde', 'ginger', 'dyed', 'white', 'strawberry blonde'];
+
+            var selectedCategory = categories[Math.floor(Math.random() * categories.length)];
             var age = generateAge();
             var gender = generateGender();
-            var childhoodText = "";
+            var character = getCategoryText(selectedCategory);
+            var randomSubcategory;
 
-            if (randomSubcategory === 'bad childhood') {
-                childhoodText = generateBadChildhood();
+            if (selectedCategory === 'tragic') {
+                randomSubcategory = subcategories['tragic'][Math.floor(Math.random() * subcategories['tragic'].length)];
+            } else if (selectedCategory === 'happy') {
+                randomSubcategory = subcategories['happy'][Math.floor(Math.random() * subcategories['happy'].length)];
+            } else {
+                randomSubcategory = subcategories['average'][Math.floor(Math.random() * subcategories['average'].length)];
             }
 
-            var character;
+            var hairColor = hairColors[Math.floor(Math.random() * hairColors.length)];
 
-            switch(randomCategory) {
-                case 'tragic':
-                    character = 'Tragic character: experiences ' + randomSubcategory + '.';
-                    break;
-                case 'average':
-                    character = 'Average character: ' + randomSubcategory + '.';
-                    break;
-                case 'happy':
-                    character = 'Happy character: ' + randomSubcategory + '.';
-                    break;
-                default:
-                    character = 'Character category not found.';
-                    break;
-            }
-
+            character += ': ' + randomSubcategory + '.';
             document.getElementById('character').innerHTML = character;
             document.getElementById('age').innerHTML = 'Age: ' + age;
             document.getElementById('gender').innerHTML = 'Gender: ' + gender;
-            document.getElementById('childhood').innerHTML = '<p>Childhood: ' + childhoodText + '</p>';
+            document.getElementById('hair-color-text').innerHTML = 'Hair Color: ' + hairColor;
+            
+
+            // Update childhood list
+            if (selectedCategory === 'tragic' || selectedCategory === 'happy' || selectedCategory === 'average') {
+                var childhoodList = document.getElementById('childhood-list');
+                childhoodList.innerHTML = '';
+                var childhoodScenarios = generateChildhoodScenarios(selectedCategory);
+                childhoodScenarios.forEach(function(scenario) {
+                    var listItem = document.createElement('li');
+                    listItem.textContent = scenario;
+                    childhoodList.appendChild(listItem);
+                });
+            }
         }
 
         function generateAge() {
-            var ageRanges = ['10-19', '20-29', '30+', '40+', '50+'];
-            return ageRanges[Math.floor(Math.random() * ageRanges.length)];
+            var ages = [];
+            for (var i = 12; i <= 45; i++) {
+                ages.push(i.toString());
+            }
+            return ages[Math.floor(Math.random() * ages.length)];
         }
 
         function generateGender() {
@@ -119,9 +156,46 @@
             return genders[Math.floor(Math.random() * genders.length)];
         }
 
-        function generateBadChildhood() {
-            var choices = ['Kidnapped at young age', 'Uprooted from home', 'Death of parent(s)', 'Death of sibling(s)', 'Death of close friend(s)', 'Outcast', 'Abandoned as baby', 'Sold off'];
-            return choices[Math.floor(Math.random() * choices.length)];
+        function getCategoryText(category) {
+            switch(category) {
+                case 'tragic':
+                    return 'Tragic character';
+                case 'average':
+                    return 'Average character';
+                case 'happy':
+                    return 'Happy character';
+                default:
+                    return 'Character category not found';
+            }
+        }
+
+        function generateChildhoodScenarios(category) {
+            var scenarios = [];
+            switch(category) {
+                case 'tragic':
+                    scenarios = ['Kidnapped at young age', 'Uprooted from home', 'Death of parent(s)', 'Death of sibling(s)', 'Death of close friend(s)', 'Outcast', 'Abandoned as baby', 'Sold off', 'Poor'];
+                    break;
+                case 'average':
+                    scenarios = ['Attended public school', 'Attended boarding school', 'Was home schooled', 'Moved frequently', 'Only child', 'Has many siblings', 'Middle class', 'Lower middle class', 'Doesn’t get along with family members'];
+                    break;
+                case 'happy':
+                    scenarios = ['Upper class family', 'Extremely rich family', 'Popular in school', 'Many extracurriculars', 'Interesting family outings', 'Only child', 'Many siblings', 'Center of attention'];
+                    break;
+                default:
+                    break;
+            }
+            return shuffleArray(scenarios).slice(0, Math.floor(Math.random() * 2) + 1);
+        }
+
+        function shuffleArray(array) {
+            var shuffledArray = array.slice();
+            for (var i = shuffledArray.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = shuffledArray[i];
+                shuffledArray[i] = shuffledArray[j];
+                shuffledArray[j] = temp;
+            }
+            return shuffledArray;
         }
     </script>
 </body>
