@@ -76,49 +76,58 @@
                 <ul id="childhood-list"></ul>
             </div>
         </div>
+        <div class="textbox-container">
+            <div class="textbox">
+                <h2>Hair Color</h2>
+                <p id="hair-color"></p>
+            </div>
+        </div>
     </div>
 
     <script>
         function generateCharacter() {
-    var categories = ['tragic', 'average', 'happy'];
-    var subcategories = {
-        'tragic': ['bad childhood', 'hard living situation', 'horrible death', 'complicated relationships'],
-        'average': ['normal childhood', 'working', 'in college/school', 'struggling in life'],
-        'happy': ['enjoyable childhood', 'perfectly normal happiness', 'happiness from madness', 'dumb idiot']
-    };
+            var categories = ['tragic', 'average', 'happy'];
+            var subcategories = {
+                'tragic': ['bad childhood', 'hard living situation', 'horrible death', 'complicated relationships'],
+                'average': ['normal childhood', 'working', 'in college/school', 'struggling in life'],
+                'happy': ['enjoyable childhood', 'perfectly normal happiness', 'happiness from madness', 'dumb idiot']
+            };
+            var hairColors = ['brown', 'blonde', 'black', 'dark brown', 'dirty blonde', 'ginger', 'dyed', 'white', 'strawberry blonde'];
 
-    var selectedCategory = categories[Math.floor(Math.random() * categories.length)];
-    var age = generateAge();
-    var gender = generateGender();
-    var character = getCategoryText(selectedCategory);
-    var randomSubcategory;
+            var selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+            var age = generateAge();
+            var gender = generateGender();
+            var character = getCategoryText(selectedCategory);
+            var randomSubcategory;
 
-    if (selectedCategory === 'tragic') {
-        randomSubcategory = subcategories['tragic'][Math.floor(Math.random() * subcategories['tragic'].length)];
-    } else if (selectedCategory === 'happy') {
-        randomSubcategory = subcategories['happy'][Math.floor(Math.random() * subcategories['happy'].length)];
-    } else {
-        randomSubcategory = subcategories['average'][Math.floor(Math.random() * subcategories['average'].length)];
-    }
+            if (selectedCategory === 'tragic') {
+                randomSubcategory = subcategories['tragic'][Math.floor(Math.random() * subcategories['tragic'].length)];
+            } else if (selectedCategory === 'happy') {
+                randomSubcategory = subcategories['happy'][Math.floor(Math.random() * subcategories['happy'].length)];
+            } else {
+                randomSubcategory = subcategories['average'][Math.floor(Math.random() * subcategories['average'].length)];
+            }
 
-    character += ': ' + randomSubcategory + '.';
-    document.getElementById('character').innerHTML = character;
-    document.getElementById('age').innerHTML = 'Age: ' + age;
-    document.getElementById('gender').innerHTML = 'Gender: ' + gender;
+            var hairColor = hairColors[Math.floor(Math.random() * hairColors.length)];
 
-    // Update childhood list
-    if (selectedCategory === 'tragic' || selectedCategory === 'happy') {
-        var childhoodList = document.getElementById('childhood-list');
-        childhoodList.innerHTML = '';
-        var childhoodScenarios = generateChildhoodScenarios(selectedCategory);
-        childhoodScenarios.forEach(function(scenario) {
-            var listItem = document.createElement('li');
-            listItem.textContent = scenario;
-            childhoodList.appendChild(listItem);
-        });
-    }
-}
+            character += ': ' + randomSubcategory + '.';
+            document.getElementById('character').innerHTML = character;
+            document.getElementById('age').innerHTML = 'Age: ' + age;
+            document.getElementById('gender').innerHTML = 'Gender: ' + gender;
+            document.getElementById('hair-color').innerHTML = 'Hair Color: ' + hairColor;
 
+            
+            if (selectedCategory === 'tragic' || selectedCategory === 'happy' || selectedCategory === 'average') {
+                var childhoodList = document.getElementById('childhood-list');
+                childhoodList.innerHTML = '';
+                var childhoodScenarios = generateChildhoodScenarios(selectedCategory);
+                childhoodScenarios.forEach(function(scenario) {
+                    var listItem = document.createElement('li');
+                    listItem.textContent = scenario;
+                    childhoodList.appendChild(listItem);
+                });
+            }
+        }
 
         function generateAge() {
             var ages = [];
